@@ -5,16 +5,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.BiPredicate;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.*;
 
 public class Solution {
 
@@ -32,77 +31,254 @@ public class Solution {
 
     private static final String TEST_0 = "./src/main/resources/problemsolving/queensattack/test_0.txt";
 
-    private static boolean isObstacle(int i, int j, Map<Integer, Set<Integer>> obstacles) {
-        return Optional.ofNullable(obstacles.get(i)).map(columns -> columns.contains(j)).orElse(false);
+    @FunctionalInterface
+    private interface ScanCommand {
+        int scan();
+    }
+
+    private static abstract class AbstractScan implements ScanCommand {
+        private final int positionX, positionY, chessboard;
+        private final Map<Integer, Set<Integer>> obstacles;
+
+        protected AbstractScan(int positionX, int positionY, int chessboard, Map<Integer, Set<Integer>> obstacles) {
+            this.positionX = positionX;
+            this.positionY = positionY;
+            this.chessboard = chessboard;
+            this.obstacles = obstacles;
+        }
+
+        public int scan() {
+            int queenSteps = 0;
+            int x = nextX(positionX);
+            int y = nextY(positionY);
+
+            while (canQueenStep(chessboard).test(x, y)) {
+                if (!isObstacleInStep(x, y)) {
+                    queenSteps++;
+                    y = nextY(y);
+                    x = nextX(x);
+                } else break;
+            }
+            return queenSteps;
+        }
+
+        protected abstract BiPredicate<Integer, Integer> canQueenStep(int n);
+
+        protected abstract int nextX(int x);
+
+        protected abstract int nextY(int y);
+
+        private boolean isObstacleInStep(int x, int y) {
+            return Optional
+                    .ofNullable(obstacles.get(x))
+                    .map(columns -> columns.contains(y))
+                    .orElse(false);
+        }
+
+    }
+
+    private static class RightScan extends AbstractScan {
+        protected RightScan(int x, int y, int n, Map<Integer, Set<Integer>> obstacles) {
+            super(x, y, n, obstacles);
+        }
+
+        @Override
+        protected BiPredicate<Integer, Integer> canQueenStep(int n) {
+            return (x, y) -> x < n;
+        }
+
+        @Override
+        protected int nextX(int x) {
+            return x + 1;
+        }
+
+        @Override
+        protected int nextY(int y) {
+            return y;
+        }
+    }
+
+    private static class LeftScan extends AbstractScan {
+        protected LeftScan(int x, int y, int n, Map<Integer, Set<Integer>> obstacles) {
+            super(x, y, n, obstacles);
+        }
+
+        @Override
+        protected BiPredicate<Integer, Integer> canQueenStep(int n) {
+            return (x, y) -> x >= 0;
+        }
+
+        @Override
+        protected int nextX(int x) {
+            return x - 1;
+        }
+
+        @Override
+        protected int nextY(int y) {
+            return y;
+        }
+    }
+
+    private static class UpScan extends AbstractScan {
+        protected UpScan(int x, int y, int n, Map<Integer, Set<Integer>> obstacles) {
+            super(x, y, n, obstacles);
+        }
+
+        @Override
+        protected BiPredicate<Integer, Integer> canQueenStep(int n) {
+            return (x, y) -> y < n;
+        }
+
+        @Override
+        protected int nextX(int x) {
+            return x;
+        }
+
+        @Override
+        protected int nextY(int y) {
+            return y + 1;
+        }
+    }
+
+    private static class DownScan extends AbstractScan {
+        protected DownScan(int x, int y, int n, Map<Integer, Set<Integer>> obstacles) {
+            super(x, y, n, obstacles);
+        }
+
+        @Override
+        protected BiPredicate<Integer, Integer> canQueenStep(int n) {
+            return (x, y) -> y >= 0;
+        }
+
+        @Override
+        protected int nextX(int x) {
+            return x;
+        }
+
+        @Override
+        protected int nextY(int y) {
+            return y - 1;
+        }
+    }
+
+    private static class DiagonalRightUpScan extends AbstractScan {
+        protected DiagonalRightUpScan(int x, int y, int n, Map<Integer, Set<Integer>> obstacles) {
+            super(x, y, n, obstacles);
+        }
+
+        @Override
+        protected BiPredicate<Integer, Integer> canQueenStep(int n) {
+            return (x, y) -> x < n && y < n;
+        }
+
+        @Override
+        protected int nextX(int x) {
+            return x + 1;
+        }
+
+        @Override
+        protected int nextY(int y) {
+            return y + 1;
+        }
+    }
+
+    private static class DiagonalLeftDownScan extends AbstractScan {
+        protected DiagonalLeftDownScan(int x, int y, int n, Map<Integer, Set<Integer>> obstacles) {
+            super(x, y, n, obstacles);
+        }
+
+        @Override
+        protected BiPredicate<Integer, Integer> canQueenStep(int n) {
+            return (x, y) -> x >= 0 && y >= 0;
+        }
+
+        @Override
+        protected int nextX(int x) {
+            return x - 1;
+        }
+
+        @Override
+        protected int nextY(int y) {
+            return y - 1;
+        }
+    }
+
+    private static class DiagonalLeftUpScan extends AbstractScan {
+        protected DiagonalLeftUpScan(int x, int y, int n, Map<Integer, Set<Integer>> obstacles) {
+            super(x, y, n, obstacles);
+        }
+
+        @Override
+        protected BiPredicate<Integer, Integer> canQueenStep(int n) {
+            return (x, y) -> x >= 0 && y < n;
+        }
+
+        @Override
+        protected int nextX(int x) {
+            return x - 1;
+        }
+
+        @Override
+        protected int nextY(int y) {
+            return y + 1;
+        }
+    }
+
+    private static class DiagonalRightDownScan extends AbstractScan {
+        protected DiagonalRightDownScan(int x, int y, int n, Map<Integer, Set<Integer>> obstacles) {
+            super(x, y, n, obstacles);
+        }
+
+        @Override
+        protected BiPredicate<Integer, Integer> canQueenStep(int n) {
+            return (x, y) -> x < n && y >= 0;
+        }
+
+        @Override
+        protected int nextX(int x) {
+            return x + 1;
+        }
+
+        @Override
+        protected int nextY(int y) {
+            return y - 1;
+        }
+    }
+
+    private static Map<Integer, Set<Integer>> loadOptimizedObstacles(List<List<Integer>> obstacles) {
+        return obstacles
+                .stream()
+                .collect(
+                        groupingBy(
+                                o -> o.get(0) - 1,
+                                mapping(
+                                        o -> o.get(1) - 1,
+                                        toSet()
+                                )
+                        )
+                );
     }
 
     public static int queensAttack(int n, int k, int r_q, int c_q, List<List<Integer>> obstacles) {
         // Write your code here
-        Map<Integer, Set<Integer>> obs = new HashMap<>();
-        obstacles.forEach(o -> {
-            Set<Integer> columns = obs.computeIfAbsent(o.get(0) - 1, key -> new HashSet<>());
-            columns.add(o.get(1) - 1);
-        });
+        Map<Integer, Set<Integer>> optimizedObstacles = loadOptimizedObstacles(obstacles);
 
-        int queen_row = r_q - 1;
-        int queen_column = c_q - 1;
+        int optimized_r_q = r_q - 1;
+        int optimized_c_q = c_q - 1;
 
-        int count = 0;
-        // i++
-        for (int i = queen_row + 1; i < n; i++) {
-            if (!isObstacle(i, queen_column, obs)) count++;
-            else break;
-        }
-        // i--
-        for (int i = queen_row - 1; i >= 0; i--) {
-            if (!isObstacle(i, queen_column, obs)) count++;
-            else break;
-        }
-        // j++
-        for (int i = queen_column + 1; i < n; i++) {
-            if (!isObstacle(queen_row, i, obs)) count++;
-            else break;
-        }
-        // j--
-        for (int i = queen_column - 1; i >= 0; i--) {
-            if (!isObstacle(queen_row, i, obs)) count++;
-            else break;
-        }
-
-        // i++ j++
-        int j = queen_column + 1;
-        for (int i = queen_row + 1; i < n && j < n; i++) {
-            if (!isObstacle(i, j, obs)) {
-                count++;
-                j++;
-            } else break;
-        }
-        // i-- j--
-        j = queen_column - 1;
-        for (int i = queen_row - 1; i >= 0 && j >= 0; i--) {
-            if (!isObstacle(i, j, obs)) {
-                count++;
-                j--;
-            } else break;
-        }
-        // i++ j--
-        j = queen_column - 1;
-        for (int i = queen_row + 1; i < n && j >= 0; i++) {
-            if (!isObstacle(i, j, obs)) {
-                count++;
-                j--;
-            } else break;
-        }
-        // i-- j++
-        j = queen_column + 1;
-        for (int i = queen_row - 1; i >= 0 && j < n; i--) {
-            if (!isObstacle(i, j, obs)) {
-                count++;
-                j++;
-            } else break;
-        }
-
-        return count;
+        return Stream
+                .of(
+                        new RightScan(optimized_r_q, optimized_c_q, n, optimizedObstacles),
+                        new LeftScan(optimized_r_q, optimized_c_q, n, optimizedObstacles),
+                        new UpScan(optimized_r_q, optimized_c_q, n, optimizedObstacles),
+                        new DownScan(optimized_r_q, optimized_c_q, n, optimizedObstacles),
+                        new DiagonalRightUpScan(optimized_r_q, optimized_c_q, n, optimizedObstacles),
+                        new DiagonalLeftDownScan(optimized_r_q, optimized_c_q, n, optimizedObstacles),
+                        new DiagonalLeftUpScan(optimized_r_q, optimized_c_q, n, optimizedObstacles),
+                        new DiagonalRightDownScan(optimized_r_q, optimized_c_q, n, optimizedObstacles)
+                )
+                .mapToInt(AbstractScan::scan)
+                .sum();
     }
 
     public static void main(String[] args) throws IOException {
