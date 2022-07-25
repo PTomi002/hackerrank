@@ -27,6 +27,11 @@ public class Solution {
      *  1. INTEGER_ARRAY ranked
      *  2. INTEGER_ARRAY player
      */
+
+    // idea:
+    //      - bináris keresést kell implementálni, csak nem azt kell figyelni hogy ott van-e az elem, hanem hogy melyik indexen létezne ha ott lenne
+    //      - bináris keresés: veszem a közepét egy rendezett tömbbnek, majd megnézem hogy a keresett elem alatta vagy felette van-e,
+    //          majd ennek megfelelően vagy a low vagy a high indexet középre húzom
     public static List<Integer> climbingLeaderboard(List<Integer> ranked, List<Integer> player) {
         Set<Integer> set = new LinkedHashSet<>(ranked);
         List<Integer> list = new ArrayList<>(set);

@@ -259,6 +259,9 @@ public class Solution {
                 );
     }
 
+    // idea:
+    //      - load the obstacles into a two layered hash to be able to quickly get them O(1)
+    //      - apply CommandPatter for all the 8 directions and count the possible steps
     public static int queensAttack(int n, int k, int r_q, int c_q, List<List<Integer>> obstacles) {
         // Write your code here
         Map<Integer, Set<Integer>> optimizedObstacles = loadOptimizedObstacles(obstacles);
