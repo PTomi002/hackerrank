@@ -4,12 +4,8 @@ import java.math.BigInteger;
 
 public class Solution {
 
-    /*
-     * Complete the 'extraLongFactorials' function below.
-     *
-     * The function accepts INTEGER n as parameter.
-     */
-
+    // idea:
+    //      - use BigInteger as it can handle all the huge numbers
     public static BigInteger extraLongFactorials(int n) {
         BigInteger factorial = BigInteger.valueOf(n);
         for (int i = n -1 ; i > 0; i--) {

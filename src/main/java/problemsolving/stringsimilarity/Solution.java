@@ -12,18 +12,11 @@ public class Solution {
 
     private static final String TEST_10 = "./src/main/resources/problemsolving/stringsimilarity/test_10.txt";
 
-    /*
-     * Complete the 'stringSimilarity' function below.
-     *
-     * The function is expected to return an INTEGER.
-     * The function accepts STRING s as parameter.
-     */
     // idea:
     //      - do not store anything, use two moving index on the string, O(n^2)
     // problem:
     //      - TimeOutError (O(n^2) is too slow)
     public static long linearStringSimilarity(String s) {
-        // Write your code here
         long sumOfSimilarities = 0;
 
         for (int i = 0; i < s.length(); i++) {

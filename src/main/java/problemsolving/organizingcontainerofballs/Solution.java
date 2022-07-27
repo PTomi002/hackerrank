@@ -29,19 +29,12 @@ Possible
      */
     private static final String TEST_1 = "./src/main/resources/problemsolving/organizingcontainerofballs/test_1.txt";
 
-    /*
-     * Complete the 'organizingContainers' function below.
-     *
-     * The function is expected to return a STRING.
-     * The function accepts 2D_INTEGER_ARRAY container as parameter.
-     */
-
-    // idea:
+    // ötlet:
     //      - csak akkor tudunk cserélni, ha van mit elvenni egy másik sorból, ez azt jelenti ha összeadom a a sor és oszlopokat majd sorrendezem,
     //          ugyan annyi labdának kell lennie, különben nincs mivel kicserélni az addtt labdát
     //      - nem érdekel a kivitelezés, csak az hogy lehetséges vagy sem
+    //      - diagonális mx-ot kell készíteni a végén
     public static String organizingContainers(List<List<Integer>> container) {
-        // Write your code here
         final int size = container.size();
         final int[][] mx = new int[size][2];
 

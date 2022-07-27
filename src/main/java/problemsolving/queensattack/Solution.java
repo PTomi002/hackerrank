@@ -17,18 +17,6 @@ import static java.util.stream.Collectors.*;
 
 public class Solution {
 
-    /*
-     * Complete the 'queensAttack' function below.
-     *
-     * The function is expected to return an INTEGER.
-     * The function accepts following parameters:
-     *  1. INTEGER n
-     *  2. INTEGER k
-     *  3. INTEGER r_q
-     *  4. INTEGER c_q
-     *  5. 2D_INTEGER_ARRAY obstacles
-     */
-
     private static final String TEST_0 = "./src/main/resources/problemsolving/queensattack/test_0.txt";
 
     @FunctionalInterface
@@ -263,7 +251,6 @@ public class Solution {
     //      - load the obstacles into a two layered hash to be able to quickly get them O(1)
     //      - apply CommandPatter for all the 8 directions and count the possible steps
     public static int queensAttack(int n, int k, int r_q, int c_q, List<List<Integer>> obstacles) {
-        // Write your code here
         Map<Integer, Set<Integer>> optimizedObstacles = loadOptimizedObstacles(obstacles);
 
         int optimized_r_q = r_q - 1;

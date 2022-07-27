@@ -19,16 +19,7 @@ public class Solution {
     private static final String TEST_0 = "./src/main/resources/problemsolving/climbingtheladder/test_0.txt";
     private static final String TEST_2 = "./src/main/resources/problemsolving/climbingtheladder/test_2.txt";
 
-    /*
-     * Complete the 'climbingLeaderboard' function below.
-     *
-     * The function is expected to return an INTEGER_ARRAY.
-     * The function accepts following parameters:
-     *  1. INTEGER_ARRAY ranked
-     *  2. INTEGER_ARRAY player
-     */
-
-    // idea:
+    // ötlet:
     //      - bináris keresést kell implementálni, csak nem azt kell figyelni hogy ott van-e az elem, hanem hogy melyik indexen létezne ha ott lenne
     //      - bináris keresés: veszem a közepét egy rendezett tömbbnek, majd megnézem hogy a keresett elem alatta vagy felette van-e,
     //          majd ennek megfelelően vagy a low vagy a high indexet középre húzom
