@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.concurrent.RecursiveTask;
 import java.util.stream.IntStream;
 
-public class Solution {
+public class SolutionNOK {
 
     private static final String TEST_10 = "./src/main/resources/problemsolving/stringsimilarity/test_10.txt";
 
