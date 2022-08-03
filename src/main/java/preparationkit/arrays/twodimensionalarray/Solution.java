@@ -1,6 +1,7 @@
 package preparationkit.arrays.twodimensionalarray;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Solution {
@@ -22,11 +23,13 @@ public class Solution {
                         new ArrayList<>(List.of(1, 2, 3, 4, 5)),
                         4
                 )
+        );
+        System.out.println(
                 // balra shiftelésnél elég a ref-eket átírni a 0.elemre (head), nem kell a több ezer elemet shiftelni
-//                rotLeft(
-//                        new LinkedList<>(List.of(1, 2, 3, 4, 5)),
-//                        4
-//                )
+                rotLeft(
+                        new LinkedList<>(List.of(1, 2, 3, 4, 5)),
+                        4
+                )
         );
     }
 }
