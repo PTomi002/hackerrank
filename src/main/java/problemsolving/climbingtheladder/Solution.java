@@ -19,6 +19,7 @@ public class Solution {
     private static final String TEST_0 = "./src/main/resources/problemsolving/climbingtheladder/test_0.txt";
     private static final String TEST_2 = "./src/main/resources/problemsolving/climbingtheladder/test_2.txt";
 
+    // [ALG]: binary search
     // ötlet:
     //      - bináris keresést kell implementálni, csak nem azt kell figyelni hogy ott van-e az elem, hanem hogy melyik indexen létezne ha ott lenne
     //      - bináris keresés: veszem a közepét egy rendezett tömbbnek, majd megnézem hogy a keresett elem alatta vagy felette van-e,

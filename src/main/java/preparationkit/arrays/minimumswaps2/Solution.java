@@ -6,6 +6,7 @@ public class Solution {
         return selectionSort(arr);
     }
 
+    // [ALG]: selection sort
     // idea:
     //      - selection sort a minimum swappel csinálja meg a sorrendet, de O(n^2)
     // problem:

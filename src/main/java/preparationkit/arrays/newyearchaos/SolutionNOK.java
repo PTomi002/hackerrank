@@ -5,6 +5,7 @@ import java.util.List;
 
 public class SolutionNOK {
 
+    // [ALG]: bubble sort
     // idea:
     //      - próbáljuk meg a rossz állapotot visszaállítani az eredetire hogy növekvő sorrendben legyenek, ne rekonstruálni
     //      - nézzük meg bubble sort algoritmus alappal

@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 public class Solution {
 
+    // [DATE]
     // idea:
     //      - 'a' means AM/PM
     private static String timeConversion(String s) {
@@ -34,6 +35,7 @@ public class Solution {
                 .getKey();
     }
 
+    // [BIT]
     // signed 32bit int range: −2^32/2 (= -2147483648) to 2^32/2−1 (= 2147483647) because it uses 1 bit to sign negative numbers
     // unsigned 32bit int range: 0 to 2^32−1 (= 4294967295) because it uses all the 32 bits
     // bitwise operations: |, &, ^ (xor), ~ (complement)

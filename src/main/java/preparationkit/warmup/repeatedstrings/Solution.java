@@ -12,7 +12,7 @@ public class Solution {
         if (remain == 0) return numOfSubString * numOfa;
         else {
             long result = numOfSubString * numOfa;
-            String sub = s.substring(0, (int) remain); // compact string = some char can be stored on only in 2 byte but most characters can be stored in 1 byte (saves maemory)
+            String sub = s.substring(0, (int) remain); // compact string = some char can be stored on only in 2 byte but most characters can be stored in 1 byte (saves memory)
             for (int i = 0; i < sub.length(); i++) if ('a' == sub.charAt(i)) result++;
             return result;
         }
